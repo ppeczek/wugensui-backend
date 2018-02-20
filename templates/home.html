@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col col-md-10">
+      <h4>Info</h4>
+    </div>
+    <div class="col col-md-10">
+      <table class="table">{# table-sm"> #}
+        <thead>
+          <th>Lp</th>
+          <th>video</th>
+          <th>state</th>
+{#          <th>transcript</th>#}
+        </thead>
+        <tbody>
+          {% for video in videos %}
+          <tr for="details-{{ video.pk }}"
+              data-toggle="collapse"
+              data-target="#details-{{ video.pk }}"
+              aria-expanded="false"
+              aria-controls="details-{{ video.pk }}"
+          >
+            <td>{{ forloop.counter }}</td>
+            <td><a href="{{ video.video_path }}">{{ video }}</a></td>
+{#            <td><button class="btn">transcript</button></td>#}
+            <td>processed</td>
+          </tr>
+          <tr class="hiddenRow">
+            <td colspan="3">
+              <div class="collapse" id="details-{{ video.pk }}">
+                <img src="{{ video.pattern }}" />
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
