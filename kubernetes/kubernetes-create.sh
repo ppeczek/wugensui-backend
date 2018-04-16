@@ -1,0 +1,1 @@
+kubectl create -f backend/backend-deployment.yaml,postgres/postgres-deployment.yaml,redis/redis-service.yaml,backend/backend-service.yaml,postgres/postgres-service.yaml,redis/redis-data-persistentvolumeclaim.yaml,postgres/postgres-data-persistentvolumeclaim.yaml,redis/redis-deployment.yaml

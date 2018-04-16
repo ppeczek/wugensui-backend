@@ -1,0 +1,19 @@
+env:
+  global:
+  - secure: Ux74yKckHMLtY/KO1vT1zVTWZ/2ZP6RvM+Nn6zbo0Q3Dzf1zXjSNFw2F403eKCN3Ntsw09eyPMz3jZqYtsslgz/6AFJz86cC5HGG96ud/UphViAwJc2thqK1OfL/pR8nkKscui7SaetRJw8kKSSNewPyqQe2SwJ/THdJNGZz2z8d/pHKLSN8RAI14EjMtHZQSlzrejufTT7ulkvh/aY5r1KZMrQsGQBDzPu6h4Ji1dI/rZxykuCW8PP11OTPZchky67eNajIKzI9jFfSvqqG5cWSqQNKgxF+E8+c8NZVdrF2OTcLhIriYv9jN1Puv822iEb5TXwAiDQHYCW1Q4tSOPnEQN8QTXURFzDcDIPCnyk9aQAnnnb27grJ/r/B4cm4YV7zwGjkZvHb8m+j09gxghQVKI0X/UUrxk1rRobPdrlTWMQPhhOPoB9jk5PFyBHwNWtOdTvHlrCtHz9+11iUiYT++z36Q3/0qKWp0wf/r9oI9MuCw1kKARlIDiVrwhi4c638XirDD3FqnjbYrcf3fCyeeDaFVpYYyokALliLEnmjjJ3QWrD0p/vpCFyPXBjdTkvJqN6LgmJ0uhiJJl+5qUmppATU01ZpPydkSx1GJvrVP0/e2t711dRDu5SSFvOUgGpQZBLmSPviDPt3RVQgl9JWXDCNKz5YmQEiHULVBHw=
+  - secure: Lu19IolqCI1HrQdpO6oMprWYkOlz1z5Gjocvfe7QbFfgOE0YNTocBkaEDxK9tMxTo2Cn1N+g8kRUlrVuUJVZ9lIAILcYHnXJgxBujJghobASlNIFIHFTDgyyBg1fV0pu/Yz9x2cu0Z2klgwtz7rXI+nPB1WWN9J2fF+g5AAhdy22P+34dsbJFMu7hIvbOubE0fgcgicSdRz4pbxqzgvLpjCUvm5kb4a4aUFsGVV0YST8FDO1VFt/44ZG/yqxQlD1Znb3WfmBoRPBpDEdsOofxLN3UksQSKLn5BEIUyfyt5ayaH7OKZ/VpHTj4TxGvarfoOnQTtpc19FXBH+sApcghpb4uk06951ubNslNtJPZxL0MhlTojR5fU3KGWBfaLepIBC9I5jP5WrpRAzhlXmaj00/H9afvvQhccSbC6HNZHb0KqPI0YN6gxkPtGRUaf41HsfBXNNUKggYkA8wJ5wbKPIQ8vBjbAlBqLFaGL6Ci/W9U2idJFxibwFmEjDuXUlqu492hY1kPZnVWM+w3xjSofBKCvsEQ13Bg+mP8jbFcE6wUlLqo55gmCFEwtlbSE0kIjU0+B4CPV+bxsQhKFKzyiXvjssrXlFDwmiy1DQf1SHO7LoZA5fFIvJ1FzScexc0TuuccVYcX6q1/vDNt2/8sZnJNvCzstt/NZKvm+8wrtI=
+
+install:
+  - pip install -r requirements.txt
+
+script: coverage run --source=wugensui manage.py test --settings=wugensui.settings.local
+
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=ppeczek/wugensui-backend
+  - export TAG=v1
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO
+  # - coveralls

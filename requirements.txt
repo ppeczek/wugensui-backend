@@ -5,23 +5,27 @@ ipdb==0.10.2
 ipython==5.3.0
 gunicorn==19.3.0
 dj-database-url==0.4.1
+psycopg2
 
 # REST
+django-rest-framework-mongoengine
 djangorestframework
 django-filter
 
-newrelic
-whitenoise==3.3
+django-cors-headers
 
-mongoengine
-# git+https://github.com/django-nonrel/django@nonrel-1.5
-# git+https://github.com/django-nonrel/djangotoolbox
-# git+https://github.com/django-nonrel/mongodb-engine
+whitenoise==3.3
 
 Pillow
 
 # storage S3
 # django-storages
 boto3
-boto
-git+https://github.com/jschneier/django-storages.git#egg=django-storages
+django-storages
+# git+https://github.com/jschneier/django-storages.git#egg=django-storages
+
+celery[redis]
+
+# tests
+coveralls
+flake8

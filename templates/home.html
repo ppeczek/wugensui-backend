@@ -12,25 +12,83 @@
           <th>Lp</th>
           <th>video</th>
           <th>state</th>
-{#          <th>transcript</th>#}
+          <th>transcript</th>
+          <th>details</th>
         </thead>
         <tbody>
           {% for video in videos %}
-          <tr for="details-{{ video.pk }}"
-              data-toggle="collapse"
-              data-target="#details-{{ video.pk }}"
-              aria-expanded="false"
-              aria-controls="details-{{ video.pk }}"
-          >
+          <tr>
             <td>{{ forloop.counter }}</td>
-            <td><a href="{{ video.video_path }}">{{ video }}</a></td>
-{#            <td><button class="btn">transcript</button></td>#}
-            <td>processed</td>
+            <td>
+              <a href="{{ video.video_path }}">{{ video }}</a>
+            </td>
+            <td>
+              <i class="fas fa-hourglass-half"></i> {{ video.get_state_display }}
+            </td>
+            <td>
+              <button class="btn" id="transcript" data-video-pk="{{ video.pk }}">transcript</button>
+            </td>
+            <td>
+              <button class="btn"
+                      for="details-{{ video.pk }}"
+                      data-toggle="collapse"
+                      data-target="#details-{{ video.pk }}"
+                      aria-expanded="false"
+                      aria-controls="details-{{ video.pk }}">
+                <i class="fas fa-info"></i>
+              </button>
+
+            </td>
           </tr>
           <tr class="hiddenRow">
-            <td colspan="3">
+            <td colspan="5">
               <div class="collapse" id="details-{{ video.pk }}">
-                <img src="{{ video.pattern }}" />
+                {% if video.state == 5 %}
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <a href="{{ video.pattern }}"
+                         data-toggle="lightbox"
+                         data-title="Pattern"
+                         data-footer="A custom footer text">
+                          <img src="{{ video.pattern }}" class="img-fluid">
+                      </a>
+                    </div>
+                    <div class="col-lg-4">
+                      <a href="{{ video.pattern }}"
+                         data-toggle="lightbox"
+                         data-title="Athlete paths"
+                         data-footer="A custom footer text">
+                          <img src="{{ video.pattern }}" class="img-fluid">
+                      </a>
+                    </div>
+                    <div class="col-lg-4">
+                      <a href="{{ video.pattern }}"
+                         data-toggle="lightbox"
+                         data-title="Athlete paths (Kalman Filtered)"
+                         data-footer="A custom footer text">
+                          <img src="{{ video.pattern }}" class="img-fluid">
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="offset-lg-4 col-lg-4">
+                      <a href="{{ video.paths }}"
+                         data-toggle="lightbox"
+                         data-title="Athlete paths - top view"
+                         data-footer="Top view">
+                          <img src="{{ video.paths }}" class="img-fluid">
+                      </a>
+                    </div>
+                    <div class="col-lg-4">
+                      <a href="{{ video.kalman_paths }}"
+                         data-toggle="lightbox"
+                         data-title="Athlete paths (Kalman Filtered) - top view"
+                         data-footer="Top view">
+                          <img src="{{ video.kalman_paths }}" class="img-fluid">
+                      </a>
+                    </div>
+                  </div>
+                {% endif %}
               </div>
             </td>
           </tr>
@@ -40,4 +98,10 @@
     </div>
   </div>
 </div>
+
+<script type="application/javascript">
+  $('#transcript').on('click', function() {
+    console.log($(this));
+  });
+</script>
 {% endblock %}

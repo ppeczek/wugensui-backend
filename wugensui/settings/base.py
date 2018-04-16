@@ -39,6 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'wugensui',
+
+    'rest_framework',
+    'django_filters',
+
+    'corsheaders',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -76,38 +82,16 @@ WSGI_APPLICATION = 'wugensui.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-MONGODB_DATABASES = {
-    'default': {
-        'name': 'wugensui',
-        # 'host': database_host,
-        # 'password': database_password,
-        # 'username': database_user,
-        'tz_aware': True, # if you using timezones in django (USE_TZ = True)
-    },
-}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         # 'ENGINE': 'django_
-#         # db_engine',
-#         # 'NAME': 'wugensui'
-#     }
-# }
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'dummy': {
         'ENGINE': 'django.db.backends.dummy'
     }
 }
-
-AUTHENTICATION_BACKENDS = (
-    'mongoengine.django.auth.MongoEngineBackend',
-)
-
-from mongoengine import connect
-connect('wugensui')
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -153,7 +137,6 @@ STATICFILES_DIRS = (
 STATIC_URL = '/static/'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -163,7 +146,6 @@ AWS_S3_HOST = os.environ.get('AWS_S3_HOST', 's3.amazonaws.com')
 AWS_S3_URL_PROTOCOL = 'https:'
 AWS_QUERYSTRING_AUTH = False
 
-# STATIC_URL = 'https://s3.amazonaws.com/{0}/'.format(AWS_STORAGE_BUCKET_NAME)
 ASSETS_AUTO_BUILD = False
 AWS_S3_FILE_OVERWRITE = False
 
@@ -182,9 +164,6 @@ if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
     MEDIAFILES_LOCATION = 'media'
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     MEDIA_URL = "https://{0}/{1}/".format(AWS_S3_HOST, MEDIAFILES_LOCATION)
-
-# SESSION_ENGINE = 'django_mongoengine.sessions'
-# SESSION_SERIALIZER = 'django_mongoengine.sessions.BSONSerializer'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
