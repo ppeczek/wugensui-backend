@@ -3,8 +3,6 @@ import os
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
 
-from mongoengine.errors import NotUniqueError
-
 from wugensui.models import Video
 
 

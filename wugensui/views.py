@@ -1,7 +1,6 @@
 from django.views.generic import TemplateView
 
-from rest_framework import response, status
-from rest_framework_mongoengine import viewsets
+from rest_framework import response, status, viewsets
 
 from .models import Video
 from .serializers import VideoSerializer
