@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t wugensui-backend:v1 .
+docker build -t ppeczek/wugensui-backend:v1 .
