@@ -15,8 +15,9 @@ services:
       - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - /static:/static
   backend:
-    image: "wugensui-backend:v1"
+    image: "ppeczek/wugensui-backend:v1"
     environment:
       - "POSTGRES_PORT_5432_TCP_PORT=5432"
       - "POSTGRES_PORT_5432_TCP_ADDR=postgres"

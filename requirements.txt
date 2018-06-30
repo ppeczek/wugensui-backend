@@ -13,7 +13,7 @@ django-filter
 
 django-cors-headers
 
-whitenoise==3.3
+whitenoise>=3.3
 
 Pillow
 
