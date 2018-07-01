@@ -1,107 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-  <div class="row justify-content-md-center">
-    <div class="col col-md-10">
-      <h4>Info</h4>
-    </div>
-    <div class="col col-md-10">
-      <table class="table">{# table-sm"> #}
-        <thead>
-          <th>Lp</th>
-          <th>video</th>
-          <th>state</th>
-          <th>transcript</th>
-          <th>details</th>
-        </thead>
-        <tbody>
-          {% for video in videos %}
-          <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>
-              <a href="{{ video.video_path }}">{{ video }}</a>
-            </td>
-            <td>
-              <i class="fas fa-hourglass-half"></i> {{ video.get_state_display }}
-            </td>
-            <td>
-              <button class="btn" id="transcript" data-video-pk="{{ video.pk }}">transcript</button>
-            </td>
-            <td>
-              <button class="btn"
-                      for="details-{{ video.pk }}"
-                      data-toggle="collapse"
-                      data-target="#details-{{ video.pk }}"
-                      aria-expanded="false"
-                      aria-controls="details-{{ video.pk }}">
-                <i class="fas fa-info"></i>
-              </button>
-
-            </td>
-          </tr>
-          <tr class="hiddenRow">
-            <td colspan="5">
-              <div class="collapse" id="details-{{ video.pk }}">
-                {% if video.state == 5 %}
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <a href="{{ video.pattern }}"
-                         data-toggle="lightbox"
-                         data-title="Pattern"
-                         data-footer="A custom footer text">
-                          <img src="{{ video.pattern }}" class="img-fluid">
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="{{ video.pattern }}"
-                         data-toggle="lightbox"
-                         data-title="Athlete paths"
-                         data-footer="A custom footer text">
-                          <img src="{{ video.pattern }}" class="img-fluid">
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="{{ video.pattern }}"
-                         data-toggle="lightbox"
-                         data-title="Athlete paths (Kalman Filtered)"
-                         data-footer="A custom footer text">
-                          <img src="{{ video.pattern }}" class="img-fluid">
-                      </a>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="offset-lg-4 col-lg-4">
-                      <a href="{{ video.paths }}"
-                         data-toggle="lightbox"
-                         data-title="Athlete paths - top view"
-                         data-footer="Top view">
-                          <img src="{{ video.paths }}" class="img-fluid">
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="{{ video.kalman_paths }}"
-                         data-toggle="lightbox"
-                         data-title="Athlete paths (Kalman Filtered) - top view"
-                         data-footer="Top view">
-                          <img src="{{ video.kalman_paths }}" class="img-fluid">
-                      </a>
-                    </div>
-                  </div>
-                {% endif %}
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+<div class="row justify-content-md-center">
+  <div class="col col-md-10">
+    <h4>Localizing wushu players on a platform based on a video recording <br /><small>Master of Science Thesis</small></h4>
+    <hr />
+{#    <p>#}
+{#      This website is GUI for algorithm localizing wushu athletes.#}
+{#    </p>#}
+    <p>
+      Go to <a href="{% url 'video-list' %}">videos</a>
+    </p>
+    <ul class="list-unstyled">
+      <li>
+        <a href="https://www.spiedigitallibrary.org/conference-proceedings-of-spie/10445/104452Y/Localizing-wushu-players-on-a-platform-based-on-a-video/10.1117/12.2280319.short?SSO=1&tab=ArticleLink">
+          SPIE.
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/ppeczek/wugensui-backend">
+          <i class="fab fa-github fa-2x" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://hub.docker.com/r/ppeczek/wugensui-backend/">
+          <i class="fab fa-docker fa-2x" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
-
-<script type="application/javascript">
-  $('#transcript').on('click', function() {
-    console.log($(this));
-  });
-</script>
 {% endblock %}

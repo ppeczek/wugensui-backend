@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView
+from django.views.generic import ListView, TemplateView
 
 from rest_framework import response, status, viewsets
 
@@ -9,10 +9,13 @@ from .serializers import VideoSerializer
 class HomeView(TemplateView):
     template_name = 'home.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
-        context['videos'] = Video.objects.all()
-        return context
+
+class VideoListView(ListView):
+    model = Video
+    template_name = 'video-list.html'
+    context_object_name = 'videos'
+    paginate_by = 12
+    queryset = Video.objects.all()
 
 
 class VideoViewSet(viewsets.ModelViewSet):

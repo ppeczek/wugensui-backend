@@ -2,14 +2,15 @@ from django.db import models
 
 
 class Video(models.Model):
-    NOT_PROCESSED, CREATING_PATTERN, PROCESSING_VIDEO, SAVING_RESULTS, PROCESSED = range(1, 6)
+    NOT_PROCESSED, CREATING_PATTERN, PROCESSING_VIDEO, SAVING_RESULTS, PROCESSED, ERROR = range(1, 7)
 
     PROCESSING_STATES = (
         (NOT_PROCESSED, 'not processed'),
         (CREATING_PATTERN, 'creating pattern'),
         (PROCESSING_VIDEO, 'processing video'),
         (SAVING_RESULTS, 'saving results'),
-        (PROCESSED, 'finished')
+        (PROCESSED, 'finished'),
+        (ERROR, 'error')
     )
 
     name = models.CharField(max_length=50, unique=True)
@@ -49,3 +50,15 @@ class Video(models.Model):
         self.corner_b_x, self.corner_b_y = corners[1]
         self.corner_c_x, self.corner_c_y = corners[2]
         self.corner_d_x, self.corner_d_y = corners[3]
+
+    def not_started(self):
+        return self.state == self.NOT_PROCESSED
+
+    def in_progress(self):
+        return self.state in [self.CREATING_PATTERN, self.PROCESSING_VIDEO, self.SAVING_RESULTS]
+
+    def finished_success(self):
+        return self.state == self.PROCESSED
+
+    def finished_error(self):
+        return self.state == self.ERROR
